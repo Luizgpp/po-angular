@@ -156,14 +156,6 @@ describe('PoChartComponent:', () => {
       expect(component['dynamicComponentSetting']).toHaveBeenCalled();
     });
 
-    it('rebuildComponentRef: should call `getSvgContainerSize`', () => {
-      const spyGetSvgContainerSize = spyOn(component, <any>'getSvgContainerSize');
-
-      component['rebuildComponentRef']();
-
-      expect(spyGetSvgContainerSize).toHaveBeenCalled();
-    });
-
     it('rebuildComponentRef: shouldn`t call `dynamicComponentSetting` if type is line', () => {
       component.type = PoChartType.Line;
 

@@ -164,7 +164,7 @@ export class PoChartLineComponent {
   }
 
   private serieLabel(serieValue: number, label: string) {
-    const hasLabel = (label !== null && label !== undefined && label !== '') ?? undefined;
+    const hasLabel = label !== null && label !== undefined && label !== '';
 
     return hasLabel ? `${label}: ${serieValue}` : serieValue.toString();
   }

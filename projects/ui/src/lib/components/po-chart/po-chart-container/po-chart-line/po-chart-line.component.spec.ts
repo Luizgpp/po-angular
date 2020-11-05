@@ -7,7 +7,7 @@ import { PoChartType } from '../../enums/po-chart-type.enum';
 import { PoChartContainerSize } from '../../interfaces/po-chart-container-size.interface';
 import { PoChartModule } from '../../po-chart.module';
 
-fdescribe('PoChartLineComponent', () => {
+describe('PoChartLineComponent', () => {
   let component: PoChartLineComponent;
   let fixture: ComponentFixture<PoChartLineComponent>;
 
@@ -86,13 +86,13 @@ fdescribe('PoChartLineComponent', () => {
     });
 
     describe('seriePathPointsDefinition: ', () => {
-      it('should call `svgPathCommand`, `xCoordinate`, `yCoordinate`, `category` and `serieLabel`', () => {
+      it('should call `svgPathCommand`, `xCoordinate`, `yCoordinate`, `serieCategory` and `serieLabel`', () => {
         const minMaxSeriesValues = { minValue: 0, maxValue: 30 };
 
         const spySvgPathCommand = spyOn(component, <any>'svgPathCommand');
         const spyXCoordinate = spyOn(component, <any>'xCoordinate');
         const spyYCoordinate = spyOn(component, <any>'yCoordinate');
-        const spyCategory = spyOn(component, <any>'category');
+        const spySerieCategory = spyOn(component, <any>'serieCategory');
         const spySerieLabel = spyOn(component, <any>'serieLabel');
 
         component['seriePathPointsDefinition'](component.containerSize, component.series, minMaxSeriesValues);
@@ -100,7 +100,7 @@ fdescribe('PoChartLineComponent', () => {
         expect(spySvgPathCommand).toHaveBeenCalled();
         expect(spyXCoordinate).toHaveBeenCalled();
         expect(spyYCoordinate).toHaveBeenCalled();
-        expect(spyCategory).toHaveBeenCalled();
+        expect(spySerieCategory).toHaveBeenCalled();
         expect(spySerieLabel).toHaveBeenCalled();
       });
 
@@ -136,6 +136,38 @@ fdescribe('PoChartLineComponent', () => {
               category: undefined,
               label: 'Vancouver',
               tooltipLabel: 'Vancouver: 10',
+              data: 10,
+              xCoordinate: 92,
+              yCoordinate: 8
+            }
+          ]
+        ];
+
+        expect(component.seriesPointsCoordinates).toEqual(expectedResult);
+        expect(component.seriesPointsCoordinates.length).toBe(1);
+        expect(component.seriesPointsCoordinates[0].length).toBe(2);
+      });
+
+      it('should apply apply only data to tooltipLabel if label is undefined', () => {
+        const minMaxSeriesValues = { minValue: 5, maxValue: 10 };
+        component.series = [{ label: undefined, data: [5, 10] }];
+
+        component['seriePathPointsDefinition'](component.containerSize, component.series, minMaxSeriesValues);
+
+        const expectedResult = [
+          [
+            {
+              category: undefined,
+              label: undefined,
+              tooltipLabel: '5',
+              data: 5,
+              xCoordinate: 72,
+              yCoordinate: 28
+            },
+            {
+              category: undefined,
+              label: undefined,
+              tooltipLabel: '10',
               data: 10,
               xCoordinate: 92,
               yCoordinate: 8

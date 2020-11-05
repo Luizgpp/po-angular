@@ -17,20 +17,21 @@ describe('PoChartMathsService', () => {
   describe('Methods:', () => {
     it('calculateMinAndMaxValues: should return the maximum and minimum series values', () => {
       const series = [
-        { category: 'A', data: [-20, 20, 45] },
-        { category: 'B', data: [200, 170, 210] }
+        { label: 'A', data: [-20, 20, 45] },
+        { label: 'B', data: [200, 170, 210] }
       ];
       const expectedResult = { minValue: -20, maxValue: 210 };
 
       expect(service.calculateMinAndMaxValues(series)).toEqual(expectedResult);
     });
 
-    it('calculateMinAndMaxValues: should return 0 for minValue if series values minimum value is greater than 0', () => {
+    it('calculateMinAndMaxValues: should return 0 if serie.data is not an array', () => {
       const series = [
-        { category: 'A', data: [40, 20, 45] },
-        { category: 'B', data: [200, 170, 210] }
+        { label: 'A', data: 40 },
+        { label: 'B', data: 20 }
       ];
-      const expectedResult = { minValue: 0, maxValue: 210 };
+
+      const expectedResult = { minValue: 0, maxValue: 0 };
 
       expect(service.calculateMinAndMaxValues(series)).toEqual(expectedResult);
     });
