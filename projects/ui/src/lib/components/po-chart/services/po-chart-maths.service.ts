@@ -20,8 +20,8 @@ export class PoChartMathsService {
    * @param series Lista de séries.
    */
   calculateMinAndMaxValues(series: Array<any>): PoChartMinMaxValues {
-    const minValue = this.getDomain(series, 'min') ?? 0;
-    const maxValue = this.getDomain(series, 'max') ?? 0;
+    const minValue = this.getDomain(series, 'min');
+    const maxValue = this.getDomain(series, 'max');
 
     return {
       minValue,
@@ -71,8 +71,9 @@ export class PoChartMathsService {
 
     const range = maxValue - minValue;
     const displacement = serieValue - minValue;
+    const result = displacement / range;
 
-    return displacement / range;
+    return isNaN(result) ? 0 : result;
   }
 
   /**
@@ -86,6 +87,7 @@ export class PoChartMathsService {
 
     const result = [];
     const step = this.getAxisXGridLineArea(minMaxValues, axisXGridLines);
+
     for (let index = minValue; index <= maxValue; index += step) {
       result.push(index);
     }
@@ -96,22 +98,18 @@ export class PoChartMathsService {
   // Cálculo que retorna o valor obtido da quantidade de AXISXGRIDLINES em relação ao alcance dos valores mínimos e máximos das séries (maxMinValues)
   private getAxisXGridLineArea(minMaxValues: PoChartMinMaxValues, axisXGridLines: number) {
     const percentageValue = this.getFractionFromInt(axisXGridLines - 1);
-
     const { minValue, maxValue } = minMaxValues;
+    const result = (percentageValue * (maxValue - minValue)) / 100;
 
-    return (percentageValue * (maxValue - minValue)) / 100;
+    return result === 0 ? 1 : result;
   }
 
   // Retorna o valor máximo ou mínimo das séries baseado no tipo passado(type).
   private getDomain(series: Array<any>, type: string) {
-    return Math[type].apply(
-      Math,
-      series.map(serie => {
+    return Math[type](
+      ...series.map(serie => {
         if (Array.isArray(serie.data)) {
-          return Math[type].apply(
-            Math,
-            serie.data.map((data: number) => data)
-          );
+          return Math[type](...serie.data);
         }
       })
     );

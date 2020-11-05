@@ -9,7 +9,8 @@ import {
   HostListener,
   OnDestroy,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
+  OnInit
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -48,7 +49,7 @@ import { PoChartContainerSize } from './interfaces/po-chart-container-size.inter
   selector: 'po-chart',
   templateUrl: './po-chart.component.html'
 })
-export class PoChartComponent extends PoChartBaseComponent implements AfterViewInit, DoCheck, OnDestroy {
+export class PoChartComponent extends PoChartBaseComponent implements AfterViewInit, DoCheck, OnDestroy, OnInit {
   private calculatedElement: boolean = false;
   private colors: Array<string> = [];
   private componentRef: ComponentRef<{}>;
@@ -106,7 +107,6 @@ export class PoChartComponent extends PoChartBaseComponent implements AfterViewI
     // evitando com isso, problemas com Tabs ou Divs que iniciem escondidas.
     // Quando modificar a estrutura dos gráficos do tipo circular isto será removido.
     const isDynamicChart = this.getComponentType(this.type);
-    this.getSvgContainerSize();
 
     if (isDynamicChart) {
       if (charWrapperWidth && !this.calculatedElement && this.initialized) {
@@ -118,6 +118,10 @@ export class PoChartComponent extends PoChartBaseComponent implements AfterViewI
 
   ngOnDestroy() {
     this.removeWindowResizeListener();
+  }
+
+  ngOnInit() {
+    this.getSvgContainerSize();
   }
 
   rebuildComponentRef() {

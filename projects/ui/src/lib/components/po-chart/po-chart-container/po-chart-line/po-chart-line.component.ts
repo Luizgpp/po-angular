@@ -170,7 +170,8 @@ export class PoChartLineComponent {
   }
 
   private xCoordinate(index: number, containerSize: PoChartContainerSize) {
-    const xRatio = index / (this.seriesLength - 1);
+    const divideIndexBySeriesLength = index / (this.seriesLength - 1);
+    const xRatio = isNaN(divideIndexBySeriesLength) ? 0 : divideIndexBySeriesLength;
     const svgAxisSideSpacing = this.mathsService.calculateSideSpacing(containerSize.svgWidth, this.seriesLength);
 
     return PoChartAxisXLabelArea + svgAxisSideSpacing + containerSize.svgPlottingAreaWidth * xRatio;

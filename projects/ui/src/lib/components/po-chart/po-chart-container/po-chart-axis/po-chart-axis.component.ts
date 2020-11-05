@@ -45,6 +45,8 @@ export class PoChartAxisComponent {
       this.seriesLength = this.mathsService.seriesGreaterLength(this.series);
       this.minMaxAxisValues = this.mathsService.calculateMinAndMaxValues(this._series);
       this.checkAxisOptions(this.axisOptions);
+      this.setaxisYCoordinates(this.containerSize, this.seriesLength);
+      this.setAxisYLabelCoordinates(this.containerSize, this.seriesLength, this.categories);
     }
   }
 
@@ -208,7 +210,8 @@ export class PoChartAxisComponent {
   }
 
   private calculateAxisYCoordinateX(containerSize: PoChartContainerSize, index: number): number {
-    const xRatio = index / (this.seriesLength - 1);
+    const divideIndexBySeriesLength = index / (this.seriesLength - 1);
+    const xRatio = isNaN(divideIndexBySeriesLength) ? 0 : divideIndexBySeriesLength;
     const svgAxisSideSpacing = this.mathsService.calculateSideSpacing(containerSize.svgWidth, this.seriesLength);
 
     return PoChartAxisXLabelArea + svgAxisSideSpacing + containerSize.svgPlottingAreaWidth * xRatio;
@@ -216,7 +219,6 @@ export class PoChartAxisComponent {
 
   private checkAxisOptions(options: PoChartAxisOptions = {}): void {
     this.minMaxAxisValues = this.mathsService.calculateMinAndMaxValues(this._series);
-
     const minValue =
       options.minRange < this.minMaxAxisValues.minValue ? options.minRange : this.minMaxAxisValues.minValue;
     const maxValue =
