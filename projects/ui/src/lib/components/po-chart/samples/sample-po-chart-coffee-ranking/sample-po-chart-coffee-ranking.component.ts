@@ -35,11 +35,11 @@ export class SamplePoChartCoffeeRankingComponent {
   ];
 
   participationByCountryInWorldExports: Array<PoLineChartSeries> = [
-    { category: 'Brazil', data: [35, 32, 25, 29, 33, 33] },
-    { category: 'Vietnam', data: [15, 17, 23, 19, 22, 18] },
-    { category: 'Colombia', data: [8, 7, 6, 9, 10, 11] },
-    { category: 'India', data: [5, 6, 5, 4, 5, 5] },
-    { category: 'Indonesia', data: [7, 6, 10, 10, 4, 6] }
+    { label: 'Brazil', data: [35, 32, 25, 29, 33, 33] },
+    { label: 'Vietnam', data: [15, 17, 23, 19, 22, 18] },
+    { label: 'Colombia', data: [8, 7, 6, 9, 10, 11] },
+    { label: 'India', data: [5, 6, 5, 4, 5, 5] },
+    { label: 'Indonesia', data: [7, 6, 10, 10, 4, 6] }
   ];
 
   coffeeProduction: Array<PoPieChartSeries> = [
