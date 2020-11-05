@@ -20,8 +20,8 @@ export class PoChartMathsService {
    * @param series Lista de séries.
    */
   calculateMinAndMaxValues(series: Array<any>): PoChartMinMaxValues {
-    const minValue = this.getDomain(series, 'min');
-    const maxValue = this.getDomain(series, 'max');
+    const minValue = this.getDomain(series, 'min') ?? 0;
+    const maxValue = this.getDomain(series, 'max') ?? 0;
 
     return {
       minValue,
@@ -104,7 +104,7 @@ export class PoChartMathsService {
 
   // Retorna o valor máximo ou mínimo das séries baseado no tipo passado(type).
   private getDomain(series: Array<any>, type: string) {
-    const domain = Math[type].apply(
+    return Math[type].apply(
       Math,
       series.map(serie => {
         if (Array.isArray(serie.data)) {
@@ -115,8 +115,6 @@ export class PoChartMathsService {
         }
       })
     );
-
-    return convertToInt(domain) ? domain : 0;
   }
 
   // Retorna a fração do número passado referente à quantidade de linhas no eixo X (axisXGridLines)
