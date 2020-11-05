@@ -255,6 +255,18 @@ describe('PoChartLineComponent', () => {
         expect(component.seriesPointsCoordinates.length).toBe(0);
         expect(component.seriesPathsCoordinates).toEqual([undefined]);
       });
+
+      it('shouldn`t apply only `M` coordenate at `seriesPathsCoordinates.coordinates` `seriesPathsCoordinates` if series.data has only one item', () => {
+        const minMaxSeriesValues = { minValue: 10, maxValue: 10 };
+        component.series = [{ label: 'Vancouver', data: [10] }];
+
+        component['seriePathPointsDefinition'](component.containerSize, component.series, minMaxSeriesValues);
+
+        const expectedResult = [{ coordinates: ' M72 28' }];
+
+        expect(component.seriesPathsCoordinates).toEqual(expectedResult);
+        expect(component.seriesPathsCoordinates.length).toBe(1);
+      });
     });
 
     it('reorderSVGGroup: should call `renderer.appendChild` and `querySelectorAll`', () => {

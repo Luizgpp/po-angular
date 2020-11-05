@@ -58,6 +58,15 @@ describe('PoChartMathsService', () => {
       expect(spyGetAxisXGridLineArea).toHaveBeenCalledWith(minMaxValues, axisXGridLines);
     });
 
+    it('range: should return only one item if minValue and maxValue have same value', () => {
+      const minMaxValues = { minValue: 1, maxValue: 1 };
+      const expectedResult = [1];
+
+      const axisXGridLines = 5;
+
+      expect(service.range(minMaxValues, axisXGridLines)).toEqual(expectedResult);
+    });
+
     it('calculateSideSpacing: should return value referring to space between label x and serie`s plot', () => {
       const containerWidth = 200;
       const seriesLength = 7;
@@ -87,6 +96,13 @@ describe('PoChartMathsService', () => {
       const serieValue = 20;
 
       expect(service.getSeriePercentage(minMaxValues, serieValue)).toBe(0.1);
+    });
+
+    it('getSeriePercentage: should return 0 if the result from calculation isn`t a number.', () => {
+      const minMaxValues = { minValue: 1, maxValue: 1 };
+      const serieValue = 1;
+
+      expect(service.getSeriePercentage(minMaxValues, serieValue)).toBe(0);
     });
   });
 });

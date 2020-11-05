@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { convertToInt } from '../../../utils/util';
-
 import { PoChartAxisXLabelArea, PoChartPadding } from '../helpers/po-chart-default-values.constant';
 
 import { PoChartContainerSize } from '../interfaces/po-chart-container-size.interface';
@@ -106,13 +104,14 @@ export class PoChartMathsService {
 
   // Retorna o valor máximo ou mínimo das séries baseado no tipo passado(type).
   private getDomain(series: Array<any>, type: string) {
-    return Math[type](
+    const result = Math[type](
       ...series.map(serie => {
         if (Array.isArray(serie.data)) {
           return Math[type](...serie.data);
         }
       })
     );
+    return isNaN(result) ? 0 : result;
   }
 
   // Retorna a fração do número passado referente à quantidade de linhas no eixo X (axisXGridLines)

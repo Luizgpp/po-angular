@@ -24,7 +24,6 @@ export class PoChartAxisComponent {
   axisYCoordinates: Array<PoChartPathCoordinates>;
   axisYLabelCoordinates: Array<PoChartAxisLabelCoordinates>;
 
-  private digitsPrecision: number = 0;
   private minMaxAxisValues: PoChartMinMaxValues;
   private seriesLength: number = 0;
 
@@ -58,12 +57,7 @@ export class PoChartAxisComponent {
     this._axisXGridLines = value;
 
     this.setaxisXCoordinates(this._axisXGridLines, this.containerSize);
-    this.setAxisXLabelCoordinates(
-      this._axisXGridLines,
-      this.containerSize,
-      this.minMaxAxisValues,
-      this.digitsPrecision
-    );
+    this.setAxisXLabelCoordinates(this._axisXGridLines, this.containerSize, this.minMaxAxisValues);
   }
 
   get axisXGridLines() {
@@ -86,12 +80,7 @@ export class PoChartAxisComponent {
 
     this.checkAxisOptions(this.axisOptions);
     this.setaxisXCoordinates(this.axisXGridLines, this._containerSize);
-    this.setAxisXLabelCoordinates(
-      this.axisXGridLines,
-      this._containerSize,
-      this.minMaxAxisValues,
-      this.digitsPrecision
-    );
+    this.setAxisXLabelCoordinates(this.axisXGridLines, this._containerSize, this.minMaxAxisValues);
     this.setaxisYCoordinates(this._containerSize, this.seriesLength);
     this.setAxisYLabelCoordinates(this._containerSize, this.seriesLength, this._categories);
   }
@@ -104,7 +93,7 @@ export class PoChartAxisComponent {
     this._axisOptions = value;
 
     this.checkAxisOptions(this._axisOptions);
-    this.setAxisXLabelCoordinates(this.axisXGridLines, this.containerSize, this.minMaxAxisValues, this.digitsPrecision);
+    this.setAxisXLabelCoordinates(this.axisXGridLines, this.containerSize, this.minMaxAxisValues);
   }
 
   get axisOptions() {
@@ -128,13 +117,12 @@ export class PoChartAxisComponent {
   private setAxisXLabelCoordinates(
     axisXGridLines: number,
     containerSize: PoChartContainerSize,
-    minMaxAxisValues: PoChartMinMaxValues,
-    digitsPrecision: number
+    minMaxAxisValues: PoChartMinMaxValues
   ) {
     const labels = this.mathsService.range(minMaxAxisValues, axisXGridLines);
 
     this.axisXLabelCoordinates = labels.map((labelItem, index: number) => {
-      const label = labelItem.toFixed(digitsPrecision);
+      const label = labelItem;
       const xCoordinate = this.calculateAxisXLabelXCoordinate();
       const yCoordinate = this.calculateAxisXCoordinateY(axisXGridLines, containerSize, index);
 
